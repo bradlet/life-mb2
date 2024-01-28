@@ -1,1 +1,2 @@
-# mb2-template: MicroBit 2 Rust embedded project template
+# HW2 - Life
+Conway's Game of Life player for BBC MicroBit V2 
