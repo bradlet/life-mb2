@@ -40,13 +40,8 @@ fn main() -> ! {
     let btn_a = board.buttons.button_a.into_pulldown_input();
     // let btn_b = board.buttons.button_b.into_pulldown_input();
 
-    let mut board_img: [[u8; 5]; 5] = [
-        [1, 0, 0, 0, 1],
-        [0, 1, 0, 1, 0],
-        [1, 0, 1, 0, 1],
-        [0, 1, 0, 1, 0],
-        [1, 0, 0, 0, 1],
-    ];
+    let mut board_img: [[u8; 5]; 5] = [[0; 5]; 5];
+	randomize_board(&mut board_img, &mut rng);
 
     rprintln!("Starting life...");
 
