@@ -75,13 +75,13 @@ fn handle_button_events<'a>(
     btn_b: &BtnBPd,
     ignore_complement_counter: &mut u32,
 ) {
-	// A:
+    // A:
     execute_if_pressed(btn_a.is_low().ok(), board, rng, randomize_board);
-	// B:
+    // B:
     // If we pressed btn_b, then `ignore_complement_counter` will be > 0.
     // No reason to check state of btn_b b/c we are ignoring it.
     if *ignore_complement_counter > 0 {
-		rprintln!("Ignoring B: {}", ignore_complement_counter);
+        rprintln!("Ignoring B: {}", ignore_complement_counter);
         *ignore_complement_counter -= 1;
     } else {
         let executed = execute_if_pressed(btn_b.is_low().ok(), board, rng, |board, _| {
