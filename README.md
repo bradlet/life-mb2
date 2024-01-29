@@ -1,7 +1,7 @@
 # life-mb2
+Conway's Game of Life player for BBC MicroBit V2
 
-## Conway's Game of Life player for BBC MicroBit V2
-
+---
 Bradley Thompson
 CS 510 Rust Embedded - taught by Bart Massey
 Winter 2024
