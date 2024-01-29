@@ -9,7 +9,7 @@ use microbit::{
     board::Board,
     display::blocking::Display,
     hal::{
-        gpio::{p0, Input, PullDown},
+        gpio::{p0, Input, PullDown, PullUp},
         prelude::InputPin,
         timer::Timer,
         Rng,
@@ -20,11 +20,14 @@ mod life;
 use life::{done as is_done, life as execute_life_step};
 
 type BtnAPd = p0::P0_14<Input<PullDown>>;
-type BtnBPd = p0::P0_23<Input<PullDown>>;
+// Note: For some reason (I'm assuming it's just something about the board config for btn B being different than A)
+// this has to be coerced as a `PullUp` instead of `PullDown` pin.
+// https://stackoverflow.com/questions/51292571/button-b-on-microbit-always-pushed
+type BtnBPd = p0::P0_23<Input<PullUp>>;
 
 const FPS: u32 = 10;
 const DELAY_MS: u32 = 1_000 / FPS;
-const MAX_STALLED_FRAMES: u32 = 20; // Count of frames where life::done() -> true before randomizing.
+const MAX_STALLED_FRAMES: u32 = 5; // Count of frames where life::done() -> true before randomizing.
 const COMPLEMENT_IGNORE_FRAMES: u32 = 5; // Count of frames to ignore further complement operations after pressing btn_b.
 
 /// Take a board and randomly set all pin values.
@@ -72,7 +75,9 @@ fn handle_button_events<'a>(
     btn_b: &BtnBPd,
     ignore_complement_counter: &mut u32,
 ) {
+	// A:
     execute_if_pressed(btn_a.is_low().ok(), board, rng, randomize_board);
+	// B:
     // If we pressed btn_b, then `ignore_complement_counter` will be > 0.
     // No reason to check state of btn_b b/c we are ignoring it.
     if *ignore_complement_counter > 0 {
@@ -98,7 +103,7 @@ fn main() -> ! {
     let mut rng = Rng::new(board.RNG);
 
     let btn_a: BtnAPd = board.buttons.button_a.into_pulldown_input();
-    let btn_b: BtnBPd = board.buttons.button_b.into_pulldown_input();
+    let btn_b: BtnBPd = board.buttons.button_b.into_pullup_input();
 
     let mut stall_counter = 0u32;
     let mut ignore_complement_counter = 0u32;
