@@ -1,7 +1,8 @@
 [package]
-name = "mb2-template"
+name = "life-mb2"
 version = "0.1.0"
 edition = "2021"
+authors = ["Bradley Thompson <bradlet2@pdx.edu>"]
 
 [dependencies]
 cortex-m-rt = "0.7"
